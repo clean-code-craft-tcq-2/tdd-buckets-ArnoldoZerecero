@@ -237,15 +237,18 @@ int main()
     }
 
     rangesFound = getRangesAndReadings(chargingSamples8, sizeof(chargingSamples8)/sizeof(int), rangesAndReadings8);
-    assert(rangesFound == 2);
-    assert(rangesAndReadings8[0] == 0);
-    assert(rangesAndReadings8[1] == 10);
-    assert(rangesAndReadings8[2] == 13);
-    assert(rangesAndReadings8[3] == 12);
-    assert(rangesAndReadings8[4] == 15);
-    assert(rangesAndReadings8[5] == 5);
-
     printRangesAndReadings(rangesAndReadings8, rangesFound);
+
+    assert(rangesFound == 3);
+    assert(rangesAndReadings8[0] == 0);
+    assert(rangesAndReadings8[1] == 4);
+    assert(rangesAndReadings8[2] == 7);
+    assert(rangesAndReadings8[3] == 6);
+    assert(rangesAndReadings8[4] == 9);
+    assert(rangesAndReadings8[5] == 5);
+    assert(rangesAndReadings8[6] == 11);
+    assert(rangesAndReadings8[7] == 15);
+    assert(rangesAndReadings8[8] == 6);
 
     // Test 5: Try randomized 12-bit sensor readings (test 3 times)
     printf("> Test 5: Try randomized 12-bit sensor readings (test 3 times)\n");
