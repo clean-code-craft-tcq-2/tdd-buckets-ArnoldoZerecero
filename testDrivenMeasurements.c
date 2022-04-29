@@ -227,28 +227,28 @@ int main()
     printRangesAndReadings(rangesAndReadings7, rangesFound);
 
     // Test 4: Integrate 10-bit sensor readings into previous implementation
-    printf("> Test 3: Integrate 10-bit sensor readings into previous implementation\n");
-    int chargingSamples8[10] = {1000, 500, 100, 200, 150, 300, 0, 0, 550, 950};
+    printf("> Test 4: Integrate 10-bit sensor readings into previous implementation\n");
+    int chargingSamples8[18] = {1000, 500, 100, 200, 150, 300, 0, 950, 550, 960, 600, 650, 700, 750, 800, 400, 450, 400};
     int rangesAndReadings8[MAX_NUMBER_OF_RANGES_AND_READINGS];
 
-    for (i = 0; i < 10; i++)
+    for (i = 0; i < 18; i++)
     {
         chargingSamples8[i] = convert10BitSensorToAmps(chargingSamples8[i]);
     }
 
     rangesFound = getRangesAndReadings(chargingSamples8, sizeof(chargingSamples8)/sizeof(int), rangesAndReadings8);
+    printRangesAndReadings(rangesAndReadings8, rangesFound);
+
     assert(rangesFound == 3);
     assert(rangesAndReadings8[0] == 0);
-    assert(rangesAndReadings8[1] == 1);
-    assert(rangesAndReadings8[2] == 2);
-    assert(rangesAndReadings8[3] == 9);
-    assert(rangesAndReadings8[4] == 10);
-    assert(rangesAndReadings8[5] == 2);
-    assert(rangesAndReadings8[6] == 14);
+    assert(rangesAndReadings8[1] == 4);
+    assert(rangesAndReadings8[2] == 7);
+    assert(rangesAndReadings8[3] == 6);
+    assert(rangesAndReadings8[4] == 9);
+    assert(rangesAndReadings8[5] == 5);
+    assert(rangesAndReadings8[6] == 11);
     assert(rangesAndReadings8[7] == 15);
-    assert(rangesAndReadings8[8] == 3);
-
-    printRangesAndReadings(rangesAndReadings8, rangesFound);
+    assert(rangesAndReadings8[8] == 6);
 
     // Test 5: Try randomized 12-bit sensor readings (test 3 times)
     printf("> Test 5: Try randomized 12-bit sensor readings (test 3 times)\n");
