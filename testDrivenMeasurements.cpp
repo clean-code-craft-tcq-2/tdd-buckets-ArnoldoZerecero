@@ -201,9 +201,16 @@ TEST_CASE("Test 5: Try randomized 12-bit sensor readings (test 3 times)")
         for (j = 0; j < 10; j++)
         {
             chargingSamples[j] = get12BitSensorReadingStub();
-            printf("%i-", chargingSamples[j]);
-            chargingSamples[j] = convert12BitSensorToAmps(chargingSamples[j]);
-            printf("%i, ", chargingSamples[j]);
+            if (chargingSamples[j] == 0xFFFF)
+            {
+                printf("Invalid reading found, ", chargingSamples[j]);
+            }
+            else
+            {
+                printf("%i-", chargingSamples[j]);
+                chargingSamples[j] = convert12BitSensorToAmps(chargingSamples[j]);
+                printf("%i, ", chargingSamples[j]);
+            }
         }
         printf("\n");
         rangesFound = getRangesAndReadings(chargingSamples, sizeof(chargingSamples)/sizeof(int), rangesAndReadings);
@@ -225,13 +232,44 @@ TEST_CASE("Test 6: Try randomized 10-bit sensor readings (test 3 times)")
         printf("> Test 6: Attempt #%i\n", i + 1);
         for (j = 0; j < 10; j++)
         {
-            chargingSamples[j] = get12BitSensorReadingStub();
-            printf("%i-", chargingSamples[j]);
-            chargingSamples[j] = convert12BitSensorToAmps(chargingSamples[j]);
-            printf("%i, ", chargingSamples[j]);
+            chargingSamples[j] = get10BitSensorReadingStub();
+            if (chargingSamples[j] == 0xFFFF)
+            {
+                printf("Invalid reading found ", chargingSamples[j]);
+            }
+            else
+            {
+                printf("%i-", chargingSamples[j]);
+                chargingSamples[j] = convert10BitSensorToAmps(chargingSamples[j]);
+                printf("%i, ", chargingSamples[j]);
+            }
         }
         printf("\n");
         rangesFound = getRangesAndReadings(chargingSamples, sizeof(chargingSamples)/sizeof(int), rangesAndReadings);
         printRangesAndReadings(rangesAndReadings, rangesFound);
+    }
+}
+
+TEST_CASE("Test 7: Ensure randomized 12-bit sensor readings never yield 4095 as result (error-reading). Test 5000 random values")
+{
+    int i;
+    int sample = 0;
+    srand(time(NULL));
+    for (i = 0; i < 5000; i++)
+    {
+        sample = get12BitSensorReadingStub();
+        REQUIRE(((sample < 4095) || (sample == 0xFFFF)));
+    }
+}
+
+TEST_CASE("Test 8: Ensure randomized 10-bit sensor readings never yield 1023 as result (error-reading). Test 5000 random values")
+{
+    int i;
+    int sample = 0;
+    srand(time(NULL));
+    for (i = 0; i < 5000; i++)
+    {
+        sample = get10BitSensorReadingStub();
+        REQUIRE(((sample < 1023) || (sample == 0xFFFF)));
     }
 }
