@@ -201,9 +201,16 @@ TEST_CASE("Test 5: Try randomized 12-bit sensor readings (test 3 times)")
         for (j = 0; j < 10; j++)
         {
             chargingSamples[j] = get12BitSensorReadingStub();
-            printf("%i-", chargingSamples[j]);
-            chargingSamples[j] = convert12BitSensorToAmps(chargingSamples[j]);
-            printf("%i, ", chargingSamples[j]);
+            if (chargingSamples[j] == 0xFFFF)
+            {
+                printf("Invalid reading found, ", chargingSamples[j]);
+            }
+            else
+            {
+                printf("%i-", chargingSamples[j]);
+                chargingSamples[j] = convert12BitSensorToAmps(chargingSamples[j]);
+                printf("%i, ", chargingSamples[j]);
+            }
         }
         printf("\n");
         rangesFound = getRangesAndReadings(chargingSamples, sizeof(chargingSamples)/sizeof(int), rangesAndReadings);
@@ -225,10 +232,17 @@ TEST_CASE("Test 6: Try randomized 10-bit sensor readings (test 3 times)")
         printf("> Test 6: Attempt #%i\n", i + 1);
         for (j = 0; j < 10; j++)
         {
-            chargingSamples[j] = get12BitSensorReadingStub();
-            printf("%i-", chargingSamples[j]);
-            chargingSamples[j] = convert12BitSensorToAmps(chargingSamples[j]);
-            printf("%i, ", chargingSamples[j]);
+            chargingSamples[j] = get10BitSensorReadingStub();
+            if (chargingSamples[j] == 0xFFFF)
+            {
+                printf("Invalid reading found ", chargingSamples[j]);
+            }
+            else
+            {
+                printf("%i-", chargingSamples[j]);
+                chargingSamples[j] = convert10BitSensorToAmps(chargingSamples[j]);
+                printf("%i, ", chargingSamples[j]);
+            }
         }
         printf("\n");
         rangesFound = getRangesAndReadings(chargingSamples, sizeof(chargingSamples)/sizeof(int), rangesAndReadings);
