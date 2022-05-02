@@ -249,3 +249,27 @@ TEST_CASE("Test 6: Try randomized 10-bit sensor readings (test 3 times)")
         printRangesAndReadings(rangesAndReadings, rangesFound);
     }
 }
+
+TEST_CASE("Test 7: Ensure randomized 12-bit sensor readings never yield 4095 as result (error-reading). Test 5000 random values")
+{
+    int i;
+    int sample = 0;
+    srand(time(NULL));
+    for (i = 0; i < 5000; i++)
+    {
+        sample = get12BitSensorReadingStub();
+        REQUIRE(((sample < 4095) || (sample == 0xFFFF)));
+    }
+}
+
+TEST_CASE("Test 8: Ensure randomized 10-bit sensor readings never yield 1023 as result (error-reading). Test 5000 random values")
+{
+    int i;
+    int sample = 0;
+    srand(time(NULL));
+    for (i = 0; i < 5000; i++)
+    {
+        sample = get10BitSensorReadingStub();
+        REQUIRE(((sample < 1023) || (sample == 0xFFFF)));
+    }
+}
